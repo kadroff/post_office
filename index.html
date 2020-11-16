@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сортировка писем</title>
+    <link rel="stylesheet" href="main.css">
+
+</head>
+
+<body>
+    <p class='time_session' id='time_session'></p>
+
+    <div class='main'>
+        <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'main_container')">Главная</button>
+            <button class="tablinks" onclick="openCity(event, 'Economic')">Экономические показатели</button>
+        </div>
+        <div id='main_container' class="tabcontent active">
+            <div class="button_chart_elements">
+                <div class='button_container'>
+                    <p id="letters"></p>
+                    <div class="container_start">
+
+                        <input type='button' class='button_start' value='Старт'>
+                        <input type='button' class='button_stop' value='Стоп'>
+
+                    </div>
+                    <div class="container_speed">
+                        <input type='button' class='button_reload restart' value='Перезагрузить'>
+
+                        <input type='button' class='button_speed button_increase_speed' value='Увеличить скорость'>
+                        <input type='button' class='button_speed button_decrease_speed' value='Уменьшить скорость'>
+                    </div>
+                </div>
+                <div class="chart">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <div class='crash_buttons'>
+
+            </div>
+
+            <h4 class="okrug_list_title">Сортировка писем по округам РФ</h4>
+            <ul class="okrug_list">
+                <li>
+                    <div>
+                        <h4>Центральный</h4>
+                        <p style='text-align: center' id='center'></p>
+                    </div>
+
+                </li>
+                <li>
+                    <div>
+                        <h4>Северо-Западный</h4>
+                        <p id='northwest'></p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>Южный</h4>
+                        <p id='south'></p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>Северо-Кавказский</h4>
+                        <p id='northkavkaz'></p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>Приволжский</h4>
+                        <p id='privolj'></p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>Уральский</h4>
+                        <p id='ural'></p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>Сибирский</h4>
+                        <p id='sibiria'></p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>Дальневосточный</h4>
+                        <p id='far_eastern'></p>
+                    </div>
+                </li>
+            </ul>
+            <p class="vertical_text">Количество отсортированных писем (шт.)</p>
+
+        </div>
+        <div id="Economic" class="tabcontent">
+            <h3>Экономические показатели</h3>
+            <ul>
+                <li>Стоимость одного письма 80р</li>
+                <li id='sortedResult'> </li>
+                <li id='amountResult'></li>
+                <li id='logisticResult'></li>
+                <li id='result'></li>
+            </ul>
+
+            <div class="chart">
+                <canvas id="myEconomicChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+
+
+
+
+</body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js'></script>
+<script src='main.js'></script>
+
+</html>
