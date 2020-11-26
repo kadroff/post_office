@@ -1,3 +1,6 @@
+var doc = new jsPDF()
+
+
 document.getElementById('main_container').style.display = "block";
 
 
@@ -5,6 +8,7 @@ var letters = 500;
 var totalLetters = 0;
 var logisticResult = 1;
 var result = 0;
+var screen;
 
 var isStarted = false;
 var isStoped = true;
@@ -159,6 +163,7 @@ setInterval(() => {
         sendLetters(randomResult);
 
         document.getElementById('letters').innerHTML = "Количество писем " + letters + 'шт.';
+        document.getElementById('speed').innerHTML = "Текущая скорость отправки " + speed + 'шт.';
         letters = letters - speed;
         totalLetters++;
         logisticResult = logisticResult + (randomResult * 25)
@@ -168,10 +173,11 @@ setInterval(() => {
         econimcData.order[1] = logisticResult
         econimcData.order[2] = result
 
-        document.getElementById('sortedResult').innerHTML = "Количество отсортированных писем " + totalLetters + 'шт.';
+        document.getElementById('sortedResult').innerHTML = "<strong>" + "Количество отсортированных писем готовых на отправку " + totalLetters + 'шт.' + "</strong>";
         document.getElementById('amountResult').innerHTML = "Затраты " + totalLetters * 25 + 'руб.';
         document.getElementById('logisticResult').innerHTML = "Затраты на логистику " + logisticResult + 'руб.';
         document.getElementById('result').innerHTML = "Суммарные затраты " + result + 'руб.';
+        document.getElementsByName('letters')[0].placeholder = `Количество доступных писем: ${totalLetters}`;
     }
 
     sessionTime();
@@ -205,7 +211,21 @@ const createGraphic = (grdata) => {
             scales: {
                 animation: {
                     duration: 0
-                }
+                },
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Кол-во отсортированных писем за период времени',
+                        fontSize: 14,
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Время сортировки писем',
+                        fontSize: 16,
+                    }
+                }]
             }
         }
     });
@@ -248,10 +268,12 @@ const createEconomicGraphic = (grdata) => {
         options: {
             scales: {
                 yAxes: [{
-                    ticks: {
-                        beginAtZero: true
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Экономические показатели (руб.)',
+                        fontSize: 16,
                     }
-                }]
+                }],
             }
         }
     });
@@ -285,6 +307,17 @@ document.querySelector('.button_decrease_speed').onclick = () => {
         speed -= 1
         alert('Скорость сортировки писем уменьшена')
     };
+}
+
+document.querySelector('#send_vegetables').onclick = () => {
+    var value = document.getElementById('count_letters').value;
+    if (value > totalLetters) {
+        alert('Введено недопустимое количество писем')
+    } else {
+        alert('Ваша заявка на отправку писем сформирована');
+    }
+    document.getElementById('username').value = "";
+    document.getElementById('count_letters').value = "";
 }
 
 
@@ -324,7 +357,7 @@ setInterval(() => {
     if (isStarted) {
         isStarted = false;
 
-        alert('Возникла аварийная ситуация, найдено письмо без индекса')
+        alert('Отсутствует подключение к интернету. Попробуйте перезагрузить систему')
         isStarted = true;
     }
 }, 40000)
@@ -333,7 +366,16 @@ setInterval(() => {
     if (isStarted) {
         isStarted = false;
 
-        alert('Возникла аварийная ситуация, письмо является открытым и пустым')
+        alert('Произошли неполадки с поставкой писем. Попробуйте перезагрузить систему')
         isStarted = true;
     }
 }, 60000)
+
+document.querySelector('.pdf').onclick = () => {
+    html2canvas(document.querySelector("#capture")).then(canvas => {
+        console.log(canvas.toDataURL())
+        doc.addImage(canvas.toDataURL('image/png'), 'JPEG', 8, 8, 200, 60)
+        doc.save('Otchet.pdf');
+    });
+}
+
