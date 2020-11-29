@@ -193,7 +193,7 @@ th {
     background-color: #34495e;
     border: 1px solid #34495e;
     color: white;
-    margin-top: 300px;
+    margin-top: 250px;
     font-size: 18px;
 }
 
@@ -201,5 +201,4 @@ th {
     width: 300px;
     height: 30px;
     color: black;
-    margin-left: 100px;
 }

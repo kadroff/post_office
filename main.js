@@ -315,6 +315,7 @@ document.querySelector('#send_vegetables').onclick = () => {
         alert('Введено недопустимое количество писем')
     } else {
         alert('Ваша заявка на отправку писем сформирована');
+        totalLetters -= value;
     }
     document.getElementById('username').value = "";
     document.getElementById('count_letters').value = "";
@@ -357,7 +358,7 @@ setInterval(() => {
     if (isStarted) {
         isStarted = false;
 
-        alert('Отсутствует подключение к интернету. Попробуйте перезагрузить систему')
+        alert('Произошел сбой в одной из систем фильтрации. Попробуйте перезагрузить систему')
         isStarted = true;
     }
 }, 40000)
