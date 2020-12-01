@@ -45,9 +45,11 @@ let graphData = {
 }
 
 let econimcData = {
-    labels: ['Затраты на письма', 'Затраты на логистику', 'Общая сумма затрат'],
+    labels: ['Затраты на контейнеры', 'Затраты на логистику', 'Общая сумма затрат'],
     order: [100, 100, 100]
 }
+
+let avaryResult = 0;
 
 const now = new Date();
 
@@ -147,7 +149,6 @@ const sendLetters = (x) => {
     }
 
 }
-
 setInterval(() => {
     if (isStarted === true) {
         let randomResult = getRandomIntInclusive(1, 9)
@@ -165,17 +166,39 @@ setInterval(() => {
         document.getElementById('letters').innerHTML = "Количество писем " + letters + 'шт.';
         document.getElementById('speed').innerHTML = "Текущая скорость отправки " + speed + 'шт.';
         letters = letters - speed;
-        totalLetters++;
+        totalLetters += speed;
         logisticResult = logisticResult + (randomResult * 25)
 
-        result = logisticResult + totalLetters * 25;
+        result = logisticResult + totalLetters * 25 + avaryResult;
         econimcData.order[0] = totalLetters * 25
         econimcData.order[1] = logisticResult
         econimcData.order[2] = result
 
+        if (totalLetters > 70) {
+            alert('Контейнеры переполнены, отсортированные письма будут отправлены на загрузку и доставку');
+            totalLetters = 0;
+            centerLetters = 0
+            northwestLetters = 0
+            southLetters = 0
+            northkavkazLetters = 0
+            privoljLetters = 0
+            uralLetters = 0
+            sibiriaLetters = 0
+            far_easternLetters = 0
+            document.getElementById('center').innerHTML = 0 + 'шт.';
+            document.getElementById('northwest').innerHTML = 0 + 'шт.';
+            document.getElementById('south').innerHTML = 0 + 'шт.';
+            document.getElementById('northkavkaz').innerHTML = 0 + 'шт.';
+            document.getElementById('privolj').innerHTML = 0 + 'шт.';
+            document.getElementById('ural').innerHTML = 0 + 'шт.';
+            document.getElementById('sibiria').innerHTML = 0 + 'шт.';
+            document.getElementById('far_eastern').innerHTML = 0 + 'шт.';
+        }
+
         document.getElementById('sortedResult').innerHTML = "<strong>" + "Количество отсортированных писем готовых на отправку " + totalLetters + 'шт.' + "</strong>";
-        document.getElementById('amountResult').innerHTML = "Затраты " + totalLetters * 25 + 'руб.';
-        document.getElementById('logisticResult').innerHTML = "Затраты на логистику " + logisticResult + 'руб.';
+        document.getElementById('amountResult').innerHTML = "Затраты на контейнеры " + totalLetters * 25 + 'руб.';
+        document.getElementById('logisticResult').innerHTML = "Затраты на сортировку " + logisticResult + 'руб.';
+        document.getElementById('avaryResult').innerHTML = "Затраты на устранение аварийных ситуации " + avaryResult + 'руб.';
         document.getElementById('result').innerHTML = "Суммарные затраты " + result + 'руб.';
         document.getElementsByName('letters')[0].placeholder = `Количество доступных писем: ${totalLetters}`;
     }
@@ -357,7 +380,7 @@ function getCurrentTime() {
 setInterval(() => {
     if (isStarted) {
         isStarted = false;
-
+        avaryResult += 15000
         alert('Произошел сбой в одной из систем фильтрации. Попробуйте перезагрузить систему')
         isStarted = true;
     }
@@ -366,7 +389,7 @@ setInterval(() => {
 setInterval(() => {
     if (isStarted) {
         isStarted = false;
-
+        avaryResult += 10000
         alert('Произошли неполадки с поставкой писем. Попробуйте перезагрузить систему')
         isStarted = true;
     }
